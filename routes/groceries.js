@@ -17,7 +17,7 @@ router.get('/item/:category', grocController.getItemsByCat);
 router.post('/item', grocController.addItem);
 
 // UPDATE Item by category in groceries collection
-router.put('/item/:category', grocController.updateItem);
+router.put('/item/:id', grocController.updateItem);
 
 // DELETE Item by id in groceries collection
 router.delete('/item/:id', grocController.deleteItem);
