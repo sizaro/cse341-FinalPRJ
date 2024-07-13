@@ -1,6 +1,6 @@
 // APPLICATION CONTROL FILE
 const express = require('express');
-const mongodb = require('./modules/db');
+const mongodb = require('./data/db');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');

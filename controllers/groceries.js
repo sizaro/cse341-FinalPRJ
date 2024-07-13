@@ -28,6 +28,45 @@ const getItemsByCat = async (req, res) => {
 
 // POST NEW RECORD
 const addItem = async (req, res) => {
-    //#swagger.tags['Groceries']
-    
+    //#swagger.tags=['Groceries']
+    const item = {
+        category: req.body.category,
+        itemDescription: req.body.itemDescription,
+        price: req.body.price,
+    };
+    const response = await mongodb.getDb().db().collection('groceries').insertOne(item);
+    if (response.acknowledged) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.error || 'Some error occured while creating record');
+    }
+}
+
+// UPDATE RECORD BY id
+const updateItem = async (req, res) => {
+    //#swagger.tags=['Groceries']
+    const itemId = new ObjectId(req.params.id);
+    const item = {
+        category: req.body.category,
+        itemDescription: req.body.itemDescription,
+        price: req.body.price,
+    };
+    const response = await mongodb.getDb().db().collection('groceries').replaceOne({_id: itemId, item});
+    if (response.modifiedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.error || 'Some error occured while updating record');
+    }
+}
+
+// DELETE RECORD BY ID
+const deleteItem = async (req, res) => {
+    //#swagger.tags=['Groceries']
+    const itemId = new ObjectId(req.params.id);
+    const response = await mongodb.getDb().db().collection('groceries').deleteOne({_id: itemId});
+    if (response.deletedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.error || 'Some error occured while deleting record');
+    }
 }
