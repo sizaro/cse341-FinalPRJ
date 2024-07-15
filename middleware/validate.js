@@ -20,6 +20,27 @@ const saveGroceryItemValidate = (req, res, next) => {
     });
 }
 
+// ELECTRONICS VALIDATION
+const saveElectroInventValidate = (req, res, next) => {
+    const elecValidateRule = {
+        category: 'required|string',
+        itemDescription: 'required|string',
+        price: 'required|numeric',
+    };
+    validate(req.body, elecValidateRule, {}, (err, status) => {
+        if (!status) {
+            res.status(412).send({
+                success: false,
+                message: 'Validation failed',
+                data: err
+            });
+        } else {
+            next()
+        }
+    });
+}
+
 module.exports = {
-    saveGroceryItemValidate
+    saveGroceryItemValidate,
+    saveElectroInventValidate
 }
