@@ -70,11 +70,3 @@ const deleteItem = async (req, res) => {
         res.status(500).json(response.error || 'Some error occured while deleting record');
     }
 }
-
-module.exports = {
-    getAllItems,
-    getItemsByCat,
-    addItem,
-    updateItem,
-    deleteItem
-}

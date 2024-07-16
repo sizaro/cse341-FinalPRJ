@@ -1,5 +1,3 @@
-const passport = require('passport');
-
 const router = require('express').Router();
 
 router.use('/', require('./swagger'));
@@ -10,6 +8,6 @@ router.get('/', (req, res) => {
 
 router.use('/groceries', require('./groceries'));
 router.use('/electronics', require('./electronics'));
-// router.use('/clothing', require('./clothing'));
+router.use('/clothing', require('./clothing'));
 
 module.exports = router;
