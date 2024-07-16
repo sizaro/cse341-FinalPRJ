@@ -18,11 +18,11 @@ const getAllItems = async (req, res) => {
 // GET ALL RECORDS IN A GIVEN CATEGORY
 const getItemsByCat = async (req, res) => {
     //#swagger.tags=['Groceries']
-    const grocCat = new ObjectId(req.params.category);
+    const grocCat = req.params.category;
     const result = await mongodb.getDb().db().collection('groceries').find({category: grocCat});
     result.toArray().then((items) => {
         res.setHeader('Contents-Type', 'application/json');
-        res.send(200).json(items);
+        res.status(200).json(items);
     });
 }
 

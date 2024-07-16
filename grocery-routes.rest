@@ -1,3 +1,5 @@
+// GROCERY ROUTES
+
 ### GET ALL ITEMS
 GET http://localhost:3000/groceries/item
 
@@ -9,7 +11,7 @@ POST http://localhost:3000/groceries/item HTTP/1.1
 content-type: application/json
 
 {
-    "category": "Dairy",
+    "category": "DELETE",
     "itemDescription": "sour cream",
     "price": "2.11"
 }
@@ -21,5 +23,8 @@ content-type: application/json
 {
     "category": "Fruit",
     "itemDescription": "Apple",
-    "price": "1.20"
+    "price": "1.00"
 }
+
+### DELETE ITEM BY ID
+DELETE http://localhost:3000/groceries/item/6695f4d71ccf557e26acfc02 HTTP/1.1
