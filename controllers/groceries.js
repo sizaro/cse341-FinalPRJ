@@ -51,7 +51,7 @@ const updateItem = async (req, res) => {
         itemDescription: req.body.itemDescription,
         price: req.body.price,
     };
-    const response = await mongodb.getDb().db().collection('groceries').replaceOne({_id: itemId, item});
+    const response = await mongodb.getDb().db().collection('groceries').replaceOne({_id: itemId}, item);
     if (response.modifiedCount > 0) {
         res.status(204).send();
     } else {

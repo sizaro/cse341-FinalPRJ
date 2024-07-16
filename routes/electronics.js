@@ -12,13 +12,13 @@ const {isAuthenticate} = require('../middleware/authenticate');
 // GET routes
 router.get('/inventory', elecController.getOneInventItem);
 router.get('/inventory/:id', elecController.getOneInventItem);
-router.get('/inventory/:id', elecController.getMultiEventItems);
+router.get('/inventory/:id', elecController.getMultiInventItems);
 
 // POST route
-router.post('/inventory', isAuthenticate, elecController.addInvent);
+// router.post('/inventory', isAuthenticate, elecController.addInvent);
 // PUT route
-router.put('/inventory/:id', isAuthenticate, elecController.updateInvent);
+// router.put('/inventory/:id', isAuthenticate, elecController.updateInvent);
 // DELETE route
-router.delete('/inventory/:id', isAuthenticate, elecController.deleteInvent);
+// router.delete('/inventory/:id', isAuthenticate, elecController.deleteInvent);
 
 module.exports = router;
