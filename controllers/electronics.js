@@ -34,3 +34,9 @@ const getInventByCat = async (req, res) => {
         res.status(200).json(electronics);
     })
 }
+
+module.exports = {
+    getOneInventItem,
+    getMultiInventItems,
+    getInventByCat,
+}
