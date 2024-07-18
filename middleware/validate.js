@@ -5,7 +5,7 @@ const saveGroceryItemValidate = (req, res, next) => {
     const grocValidateRule = {
         category: 'required|string',
         itemDescription: 'required|string',
-        price: 'required|numeric',
+        price: 'required|string',
     };
     validate(req.body, grocValidateRule, {}, (err, status) => {
         if (!status) {
