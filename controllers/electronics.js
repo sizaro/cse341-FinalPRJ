@@ -35,8 +35,52 @@ const getInventByCat = async (req, res) => {
     })
 }
 
+const addInvent = async (req, res) => {
+    const inventId = new ObjectId(req.params.id);
+    const invent = {
+        type: req.body.type,
+        name: req.body.name,
+        price: req.body.price,
+    }
+    const response = await mongodb.getDatabase().db().collection('electronics').insertOne({invent})
+    if (response.modifiedCount > 0) {
+
+        res.status(204).send() }
+            else {
+                res.status(500).json(response.error || `An error occured while updating the user.`)
+            }
+};
+
+const updateInvent = async (req, res) => {
+    const inventId = new ObjectId(req.params.id);
+    const invent = {
+        type: req.body.type,
+        name: req.body.name,
+        price: req.body.price,
+    }
+    const response = await mongodb.getDatabase().db().collection('electronics').replaceOne({invent}, invent)
+    if (response.modifiedCount > 0) {
+        res.status(204).send() }
+            else {
+                res.status(500).json(response.error || `An error occured while updating the user.`)
+            }
+};
+
+const deleteInvent = async (req, res) => {
+    const inventId = new ObjectId(req.params.id);
+    const invent = await mongodb.getDatabase().db().collection('electronics').remove({_id: inventId}, true)
+    if (response.modifiedCount > 0) {
+        res.status(204).send() } 
+        else {
+            application.listen(port, () => (console.log(`Database is listening and node is Running on port ${port}`)));
+        }
+    };
+
 module.exports = {
     getOneInventItem,
     getMultiInventItems,
     getInventByCat,
+    addInvent,
+    updateInvent,
+    deleteInvent
 }
