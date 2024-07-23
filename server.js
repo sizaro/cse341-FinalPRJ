@@ -1,11 +1,13 @@
 // APPLICATION CONTROL FILE
 const express = require('express');
-const mongodb = require('./modules/db');
+const mongodb = require('./data/db');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
-const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors');
+const authRoutes = require('./routes/auth');
+const routes = require('./routes/index')
+const passportSetup = require('./helper/passportSetup')
 
 
 const app = express();
@@ -14,12 +16,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost"
 
-// ROUTES
-app.use(bodyParser.json());
+// middleware
+
+app.set("view engine", "ejs")
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(session({
-    secret: "secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitiated: true,
+    saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,38 +41,13 @@ app.use((req, res, next) => {
 app.use(cors({methods:['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']}));
 app.use(cors({origin: '*'}));
 app.use('/', require('./routes'));
+app.use('/auth', authRoutes);
 
-passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.CALLBACKURL
-},
-function(accessToken, refreshToken, profile, done){
-    return done(null, profile);
-}
-));
-
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
-passport.deserializeUser((user, done) => {
-    done(null, user);
-});
-
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
     res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}`:'Logged Out')
-});
+});*/
 
-app.get('/github/callback', passport.authenticate('github', {
-    failureRedirect: '/api-docs', session: false}),
-    (req, res) => {
-        req.session.user = req.user;
-        res.redirect('/');
-    });
-
-process.on('uncaughtException', (err, origin) => {
-    console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
-})
+//Middleware
 
 // INITIALIZE MONGODB 
 mongodb.initDb((err) => {
