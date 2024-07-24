@@ -42,6 +42,16 @@
         }
       }
     },
+    "/api-docs": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/groceries/item": {
       "get": {
         "tags": [
@@ -216,13 +226,28 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": {
+                "item": {
                   "example": "any"
                 },
-                "name": {
+                "manufacturer": {
+                  "example": "any"
+                },
+                "model": {
+                  "example": "any"
+                },
+                "color": {
                   "example": "any"
                 },
                 "price": {
+                  "example": "any"
+                },
+                "modelNum": {
+                  "example": "any"
+                },
+                "serialNum": {
+                  "example": "any"
+                },
+                "description": {
                   "example": "any"
                 }
               }
@@ -283,13 +308,28 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": {
+                "item": {
                   "example": "any"
                 },
-                "name": {
+                "manufacturer": {
+                  "example": "any"
+                },
+                "model": {
+                  "example": "any"
+                },
+                "color": {
                   "example": "any"
                 },
                 "price": {
+                  "example": "any"
+                },
+                "modelNum": {
+                  "example": "any"
+                },
+                "serialNum": {
+                  "example": "any"
+                },
+                "description": {
                   "example": "any"
                 }
               }
@@ -327,6 +367,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -470,6 +513,76 @@
         }
       }
     },
+    "/user/user/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "example": "any"
+                },
+                "lastname": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/user/user": {
       "get": {
         "tags": [
@@ -526,15 +639,12 @@
         }
       }
     },
-    "/user/user/{id}": {
-      "get": {
+    "/user/delete/{id}": {
+      "delete": {
         "tags": [
           "Users"
         ],
         "description": "",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",
@@ -543,19 +653,6 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/user/delete": {
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
         "responses": {
           "204": {
             "description": "No Content"

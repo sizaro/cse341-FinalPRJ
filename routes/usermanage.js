@@ -10,15 +10,14 @@ const validate = require('../middleware/validate');
 const { isAuthenticated } = require('../middleware/authenticate');
 
 // GET routes
-router.get('/user', userController.getOneUser);
 router.get('/user/:id', userController.getOneUser);
-router.get('/user/:id', userController.getMultiUsers);
+router.get('/user', userController.getMultiUsers);
 
 // PUT route
 router.post('/user', isAuthenticated, userController.addUser);
 // POST route
-router.post('/user', isAuthenticated, userController.updateUserbyId);
+router.put('/user/:id', isAuthenticated, userController.updateUserbyId);
 // DELETE route
-router.delete('/delete', isAuthenticated, userController.deleteUser);
+router.delete('/delete/:id', isAuthenticated, userController.deleteUser);
 
 module.exports = router;

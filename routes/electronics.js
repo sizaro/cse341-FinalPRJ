@@ -10,9 +10,8 @@ const validate = require('../middleware/validate');
 const {isAuthenticated} = require('../middleware/authenticate');
 
 // GET routes
-router.get('/inventory', elecController.getOneInventItem);
+router.get('/inventory', elecController.getMultiInventItems);
 router.get('/inventory/:id', elecController.getOneInventItem);
-router.get('/inventory/:id', elecController.getMultiInventItems);
 
 // POST route
 router.post('/inventory', isAuthenticated, elecController.addInvent);

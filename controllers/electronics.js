@@ -9,7 +9,8 @@ const ObjectId = require('mongodb').ObjectId;
 // GET ONE ITEM IN THE ELECTRONICS INVENTORY
 const getOneInventItem = async (req, res) => {
     //#swagger.tags=['Electronics']
-    const result = await mongodb.getDb().db().collection('electronics').find()
+    const electId = new ObjectId(req.params.id);
+    const result = await mongodb.getDb().db().collection('electronics').find({_id: electId});
     result.toArray().then((electronics) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(electronics);
@@ -19,73 +20,68 @@ const getOneInventItem = async (req, res) => {
 // GET MULTIPLE ITEMS IN THE ELECTRONICS INVENTORY
 const getMultiInventItems = async (req, res) => {
     //#swagger.tags=['Electronics']
-    const electId = new ObjectId(req.params.id)
-    const result = await mongodb.getDb().db().collection('electronics').find()
+    const result = await mongodb.getDb().db().collection('electronics').find();
     result.toArray().then((electronics) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(electronics);
     })
 };
 
-// GET ELECTRONICS INVENTORY ITEM BY CATEGORY
-const getInventByCat = async (req, res) => {
-    //#swagger.tags=['Electronics']
-    const inventCat = new ObjectId(req.params.category)
-    const result = await mongodb.getDb().db().collection('electronics').find({category: inventCat});
-    result.toArray.then((electronics) => {
-        res.SetHeader('Content-Type', 'application/json')
-        res.status(200).json(electronics);
-    })
-}
-
 const addInvent = async (req, res) => {
     //#swagger.tags=['Electronics']
-    const inventId = new ObjectId(req.params.id);
     const invent = {
-        type: req.body.type,
-        name: req.body.name,
+        item: req.body.item,
+        manufacturer: req.body.manufacturer,
+        model: req.body.model,
+        color: req.body.color,
         price: req.body.price,
+        modelNum: req.body.modelNum,
+        serialNum: req.body.serialNum,
+        description: req.body.description,
+    };
+    const response = await mongodb.getDb().db().collection('electronics').insertOne({invent});
+    if (response.acknowledged) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.error || `An error occured while creating the inventory.`);
     }
-    const response = await mongodb.getDatabase().db().collection('electronics').insertOne({invent})
-    if (response.modifiedCount > 0) {
-
-        res.status(204).send() }
-            else {
-                res.status(500).json(response.error || `An error occured while updating the user.`)
-            }
 };
 
 const updateInvent = async (req, res) => {
     //#swagger.tags=['Electronics']
     const inventId = new ObjectId(req.params.id);
     const invent = {
-        type: req.body.type,
-        name: req.body.name,
+        item: req.body.item,
+        manufacturer: req.body.manufacturer,
+        model: req.body.model,
+        color: req.body.color,
         price: req.body.price,
-    }
-    const response = await mongodb.getDatabase().db().collection('electronics').replaceOne({invent}, invent)
+        modelNum: req.body.modelNum,
+        serialNum: req.body.serialNum,
+        description: req.body.description,
+    };
+    const response = await mongodb.getDb().db().collection('electronics').replaceOne({_id: inventId}, invent);
     if (response.modifiedCount > 0) {
-        res.status(204).send() }
-            else {
-                res.status(500).json(response.error || `An error occured while updating the user.`)
-            }
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.error || `An error occured while updating the inventory.`);
+    }
 };
 
 const deleteInvent = async (req, res) => {
     //#swagger.tags=['Electronics']
     const inventId = new ObjectId(req.params.id);
-    const invent = await mongodb.getDatabase().db().collection('electronics').remove({_id: inventId}, true)
-    if (response.modifiedCount > 0) {
-        res.status(204).send() } 
-        else {
-            application.listen(port, () => (console.log(`Database is listening and node is Running on port ${port}`)));
-        }
-    };
+    const response = await mongodb.getDb().db().collection('electronics').deleteOne({_id: inventId});
+    if (response.deletedCount > 0) {
+        res.status(204).send(); 
+    } else {
+        res.status(500).json(response.error || 'Some error occured while deleting inventory');
+    }
+};
 
 module.exports = {
     getOneInventItem,
     getMultiInventItems,
-    getInventByCat,
     addInvent,
     updateInvent,
     deleteInvent
