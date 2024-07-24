@@ -5,7 +5,7 @@ const doc = {
         title: 'CSEMart',
         description: ''
     },
-    host: 'localhost:3000',
+    host: 'localhost:3000' || 'https://cse341-finalprj.onrender.com',
     schemes: ['https', 'http']
 };
 
